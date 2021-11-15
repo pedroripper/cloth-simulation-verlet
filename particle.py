@@ -37,14 +37,3 @@ class particle:
         return [self.x,self.y,self.z]
 
 
-# class bar:
-
-# class grid:
-
-
-
-# def gravity(m,acc):
-#     return m*acc
-
-# def verletParticle(t,h,x,y,z,xp,yp,zp):
-
