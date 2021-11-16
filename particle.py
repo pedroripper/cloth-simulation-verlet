@@ -1,13 +1,10 @@
 import constants as const
 import math as math
-class particle:
+from vec3d import Vector3d
+class Particle:
     def __init__(self,x,y,z,isFixed,mass):
-        self.x = x
-        self.y = y
-        self.z = z
-        self.xp = x
-        self.yp = y
-        self.zp = z
+        self.pos = Vector3d(x,y,z)
+        self.posp = Vector3d(x,y,z)
         self.isFixed = isFixed
         self.m = mass
 
@@ -23,17 +20,22 @@ class particle:
         return self.gravity(axis)+self.wind(axis,t)
     
     def verlet(self,t,h):
-        tempx = self.x
-        tempy = self.y
-        tempz = self.z
-        self.x = self.x + (1-const.amort)*(self.x-self.xp) + h*h*(self.totalForce(t,0))/self.m;
-        self.y = self.y + (1-const.amort)*(self.y-self.yp) + h*h*(self.totalForce(t,1))/self.m;
-        self.z = self.z + (1-const.amort)*(self.z-self.zp) + h*h*(self.totalForce(t,2))/self.m;
-        self.xp = tempx
-        self.yp = tempy
-        self.zp = tempz
-    
+        cPosition = self.pos.getPos()
+        tPosition = cPosition
+        cPosition[0] = cPosition[0] + (1-const.amort)*(cPosition[0]-tPosition[0]) + h*h*(self.totalForce(t,0))/self.m;
+        cPosition[1] = cPosition[1] + (1-const.amort)*(cPosition[1]-tPosition[1]) + h*h*(self.totalForce(t,1))/self.m;
+        cPosition[2] = cPosition[2] + (1-const.amort)*(cPosition[2]-tPosition[2]) + h*h*(self.totalForce(t,2))/self.m;
+        self.posp.updatePos(tPosition)
+        self.pos.updatePos(cPosition)
+
+    def move(self,delta,axis):
+        if(self.isFixed):
+            return
+       
     def getPos(self):
-        return [self.x,self.y,self.z]
+        return self.pos.getPos()
+
+    def distance(self,pB):
+        return self.pos.distance(pB.pos)
 
 
