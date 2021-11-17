@@ -11,7 +11,11 @@ vertices = c.getVertices()
 faces = c.getFaces()
 mesh = pv.PolyData(np.array(vertices),np.array(faces))
 
-
+plotter.camera_position = [
+	(20, 0, 200),
+	(20, 10, 0),   
+	(0, 0, 0),    
+]
 plotter.add_mesh(mesh,color='r',show_edges=True,interpolate_before_map = True)
 plotter.add_axes()
 plotter.enable_eye_dome_lighting()
@@ -20,7 +24,7 @@ plotter.open_gif("animation.gif")
 plotter.write_frame()
 
 
-for i in range(50):
+for i in range(100):
     c.runSim()
     vertices = c.getVertices()
     plotter.update_coordinates(np.array(vertices), mesh=mesh)
