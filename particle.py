@@ -15,7 +15,7 @@ class Particle:
     def wind(self,axis,t):
         if(self.isFixed):
             return 0.0
-        return const.w*math.exp(-t/20.0)
+        return const.w[axis]*math.exp(-t/20.0)
     def totalForce(self,t,axis):
         return self.gravity(axis)+self.wind(axis,t)
     
@@ -28,9 +28,12 @@ class Particle:
         self.posp.updatePos(tPosition)
         self.pos.updatePos(cPosition)
 
+
+    # mover as particulas se a distancia delas ta violando o tamanho da barra
     def move(self,delta,axis):
         if(self.isFixed):
             return
+
        
     def getPos(self):
         return self.pos.getPos()
