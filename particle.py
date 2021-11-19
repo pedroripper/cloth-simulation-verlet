@@ -1,12 +1,15 @@
 import constants as const
 import math as math
 from vec3d import Vector3d
+import time
+
 class Particle:
-    def __init__(self,x,y,z,isFixed,mass):
+    def __init__(self,x,y,z,isFixed,mass,index):
         self.pos = Vector3d(x,y,z)
-        self.posp = Vector3d(x,y,z)
+        self.lastPos = Vector3d(x,y,z)
         self.isFixed = isFixed
         self.m = mass
+        self.index = index
 
     def gravity(self,axis):
         if(self.isFixed):
@@ -19,26 +22,43 @@ class Particle:
     def totalForce(self,t,axis):
         return self.gravity(axis)+self.wind(axis,t)
     
-    def verlet(self,t,h):
+    def verlet(self,t):
+
         cPosition = self.pos.getPos()
-        tPosition = cPosition
-        cPosition[0] = cPosition[0] + (1-const.amort)*(cPosition[0]-tPosition[0]) + h*h*(self.totalForce(t,0))/self.m;
-        cPosition[1] = cPosition[1] + (1-const.amort)*(cPosition[1]-tPosition[1]) + h*h*(self.totalForce(t,1))/self.m;
-        cPosition[2] = cPosition[2] + (1-const.amort)*(cPosition[2]-tPosition[2]) + h*h*(self.totalForce(t,2))/self.m;
-        self.posp.updatePos(tPosition)
-        self.pos.updatePos(cPosition)
+        lPosition = self.lastPos.getPos()
+        tPosition = cPosition       
+
+        cPosition[0] = cPosition[0] + (1.0-const.amort)*(cPosition[0]-lPosition[0]) + (t/1000.0)*(t/1000.0)*(self.totalForce(t,0))/self.m;
+        cPosition[1] = cPosition[1] + (1.0-const.amort)*(cPosition[1]-lPosition[1]) + (t/1000.0)*(t/1000.0)*(self.totalForce(t,1))/self.m;
+        cPosition[2] = cPosition[2] + (1.0-const.amort)*(cPosition[2]-lPosition[2]) + (t/1000.0)*(t/1000.0)*(self.totalForce(t,2))/self.m;
+
+        newPos = Vector3d(cPosition[0],cPosition[1],cPosition[2])
+
+        self.updatePos(self.pos,newPos)
 
 
-    # mover as particulas se a distancia delas ta violando o tamanho da barra
-    def move(self,delta,axis):
+
+    def updatePos(self,current,new):
+        self.lastPos = current
+        self.pos = new
+        
+    def move(self,distV):
         if(self.isFixed):
             return
-
-       
+        else:
+            newPos = self.pos.add(distV.getPos())
+            self.pos = newPos
+            
     def getPos(self):
         return self.pos.getPos()
 
+    def getLastPos(self):
+        return self.lastPos.getPos()
+    
+    def getVec(self):
+        return self.pos
+
     def distance(self,pB):
-        return self.pos.distance(pB.pos)
+        return self.pos.distance(pB.getPos())
 
 
