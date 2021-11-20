@@ -1,5 +1,6 @@
 from cloth import Cloth
 import pyvista as pv
+
 import numpy as np
 
 mesh = pv.PolyData()
@@ -12,23 +13,34 @@ faces = c.getFaces()
 mesh = pv.PolyData(np.array(vertices),np.array(faces))
 
 plotter.camera_position = [
-	(-2.4869290241895983, -4.117635780062769, 261.53798143315186),
- (0.0, 0.0, 250.0),
- (-0.9762657511948513, -0.015644578874755274, -0.21601025483940392)
+(4.5920040953099255, 2.427775565730334, 38.46159577341813),
+ (10.0, 10.0, -20.0),
+ (-0.9758831176030498, 0.01636214830833893, -0.2176796289965784)
 ]
+
+
+# 	(0,15,80),
+#  (10, 4, -20.0),
+#  (0,0,0)
+
+# plotter.camera.roll -= 90
+
+# plotter.camera.roll += 100
 light = pv.Light()
-light.set_direction_angle(10, -20)
-plotter.add_light(light)
-plotter.add_mesh(mesh,color='r',show_edges=True,interpolate_before_map = True,smooth_shading=True)
+# light.set_direction_angle(10, -20)
+# plotter.add_light(light)
+plotter.add_mesh(mesh,show_edges=True,interpolate_before_map = True,smooth_shading=True, cmap='plasma', metallic=5.0,pbr=True)
 plotter.add_axes()
 plotter.enable_eye_dome_lighting()
-plotter.show(title="Verlet Cloth", interactive=False, auto_close=False, window_size=[1000, 500])
+plotter.show(title="Verlet Cloth", interactive=False, auto_close=False, window_size=[1000, 1000])
 plotter.open_gif("animation.gif")
 plotter.write_frame()
 
 
 for i in range(100):
-    c.runSim(50.0)
+    print("Iteração ", i+1)
+    print(plotter.camera_position)
+    c.runSim(5.0)
     vertices = c.getVertices()
     # print(len(vertices))
     plotter.update_coordinates(np.array(vertices), mesh=mesh)

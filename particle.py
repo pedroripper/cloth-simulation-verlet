@@ -28,9 +28,9 @@ class Particle:
         lPosition = self.lastPos.getPos()
         tPosition = cPosition       
 
-        cPosition[0] = cPosition[0] + (1.0-const.amort)*(cPosition[0]-lPosition[0]) + (t/1000.0)*(t/1000.0)*(self.totalForce(t,0))/self.m;
-        cPosition[1] = cPosition[1] + (1.0-const.amort)*(cPosition[1]-lPosition[1]) + (t/1000.0)*(t/1000.0)*(self.totalForce(t,1))/self.m;
-        cPosition[2] = cPosition[2] + (1.0-const.amort)*(cPosition[2]-lPosition[2]) + (t/1000.0)*(t/1000.0)*(self.totalForce(t,2))/self.m;
+        cPosition[0] = cPosition[0] + (1.0-const.amort)*(cPosition[0]-lPosition[0]) + (t/100.0)*(t/100.0)*(self.totalForce(t,0))/self.m;
+        cPosition[1] = cPosition[1] + (1.0-const.amort)*(cPosition[1]-lPosition[1]) + (t/100.0)*(t/100.0)*(self.totalForce(t,1))/self.m;
+        cPosition[2] = cPosition[2] + (1.0-const.amort)*(cPosition[2]-lPosition[2]) + (t/100.0)*(t/100.0)*(self.totalForce(t,2))/self.m;
 
         newPos = Vector3d(cPosition[0],cPosition[1],cPosition[2])
 

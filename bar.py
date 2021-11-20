@@ -14,7 +14,7 @@ class Bar:
 
     def checkConstraints(self):
         distance = self.particles[0].distance(self.particles[1])
-        if(distance > (self.l + 0.005)):            
+        if(distance/(self.l) > 1.05):            
             return False
         return True
     

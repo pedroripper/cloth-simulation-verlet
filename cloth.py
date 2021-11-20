@@ -16,7 +16,7 @@ class Cloth:
         for i in range(self.iPar):
             tempPar = []
             for j in range(self.jPar):
-                    tempPar += [Particle(float(i)*10.0,float(j)*10.0,0.0,j == 0,5.0,[i,j])]
+                    tempPar += [Particle(float(i),float(j),0.0,j == 0,2.0,[i,j])]
             self.particles += [tempPar]
 
         # Create bars
@@ -24,18 +24,31 @@ class Cloth:
             for j in range(self.jPar):
                     if(j < self.jPar-1):
                         self.bars += [Bar(self.particles[i][j],self.particles[i][j+1])]
+                    if(j < self.jPar-2):
+                        self.bars += [Bar(self.particles[i][j],self.particles[i][j+2])]
+
+
                     if(j < self.jPar-1 and i < self.iPar - 1):
                         self.bars += [Bar(self.particles[i][j],self.particles[i+1][j+1])]
+                    if(j < self.jPar-2 and i < self.iPar - 2):
+                        self.bars += [Bar(self.particles[i][j],self.particles[i+2][j+2])]
+
                     if(i < self.iPar-1):
                         self.bars += [Bar(self.particles[i][j],self.particles[i+1][j])]
+                    if(i < self.iPar-2):
+                        self.bars += [Bar(self.particles[i][j],self.particles[i+2][j])]
+
                     if(j > 0 and i < self.iPar - 1):
                         self.bars += [Bar(self.particles[i][j],self.particles[i+1][j-1])]
-        self.bars += [Bar(self.particles[0][0],self.particles[self.iPar-1][self.jPar-1])]
-        self.bars += [Bar(self.particles[0][0],self.particles[0][self.jPar-1])]
-        self.bars += [Bar(self.particles[0][0],self.particles[self.iPar-1][0])]
-        self.bars += [Bar(self.particles[self.iPar-1][0],self.particles[self.iPar-1][self.jPar-1])]
-        self.bars += [Bar(self.particles[self.iPar-1][0],self.particles[0][self.jPar-1])]
-        self.bars += [Bar(self.particles[0][self.jPar-1],self.particles[self.iPar-1][self.jPar-1])]
+                    if(j > 1 and i < self.iPar - 2):
+                        self.bars += [Bar(self.particles[i][j],self.particles[i+2][j-2])]
+                    
+        # self.bars += [Bar(self.particles[0][0],self.particles[self.iPar-1][self.jPar-1])]
+        # self.bars += [Bar(self.particles[0][0],self.particles[0][self.jPar-1])]
+        # self.bars += [Bar(self.particles[0][0],self.particles[self.iPar-1][0])]
+        # self.bars += [Bar(self.particles[self.iPar-1][0],self.particles[self.iPar-1][self.jPar-1])]
+        # self.bars += [Bar(self.particles[self.iPar-1][0],self.particles[0][self.jPar-1])]
+        # self.bars += [Bar(self.particles[0][self.jPar-1],self.particles[self.iPar-1][self.jPar-1])]
     
 
 
@@ -96,6 +109,7 @@ class Cloth:
         self.runVerlet(t)
 
         while(not self.checkConstraints()):
+    
             for vB in self.violatedBars:
                 
                 self.bars[vB].fix()
