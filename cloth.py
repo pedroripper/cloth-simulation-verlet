@@ -16,7 +16,7 @@ class Cloth:
         for i in range(self.iPar):
             tempPar = []
             for j in range(self.jPar):
-                    tempPar += [Particle(float(i),float(j),0.0,j == 0,2.0,[i,j])]
+                    tempPar += [Particle(float(i),float(j),0.0,j == 0,1.0,[i,j])]
             self.particles += [tempPar]
 
         # Create bars
