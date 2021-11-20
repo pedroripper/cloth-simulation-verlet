@@ -53,10 +53,8 @@ class Cloth:
 
     def getVertices(self):
         vertices = []
-        # print(self.particles)
         for i in range(self.iPar):
             for j in range(self.jPar):
-                # print(i,j)
                 vertices += [self.particles[i][j].getPos()]
         return vertices
     
@@ -95,18 +93,9 @@ class Cloth:
         return check
     
     def runSim(self,t):
-
-        # print("Rodando")
-
         self.runVerlet(t)
-       
-
-
-
 
         while(not self.checkConstraints()):
-
-            
             for vB in self.violatedBars:
                 
                 self.bars[vB].fix()
