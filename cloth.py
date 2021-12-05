@@ -43,17 +43,19 @@ class Cloth:
                     if(j > 1 and i < self.iPar - 2):
                         self.bars += [Bar(self.particles[i][j],self.particles[i+2][j-2])]
                     
-        # self.bars += [Bar(self.particles[0][0],self.particles[self.iPar-1][self.jPar-1])]
-        # self.bars += [Bar(self.particles[0][0],self.particles[0][self.jPar-1])]
-        # self.bars += [Bar(self.particles[0][0],self.particles[self.iPar-1][0])]
-        # self.bars += [Bar(self.particles[self.iPar-1][0],self.particles[self.iPar-1][self.jPar-1])]
-        # self.bars += [Bar(self.particles[self.iPar-1][0],self.particles[0][self.jPar-1])]
-        # self.bars += [Bar(self.particles[0][self.jPar-1],self.particles[self.iPar-1][self.jPar-1])]
     
+    def runSim(self,t):
+        self.runVerlet(t)
 
+        while(not self.checkConstraints()):
+    
+            for vB in self.violatedBars:
+                
+                self.bars[vB].fix()
 
+            self.violatedBars.clear()
+    
     def runVerlet(self,t):
-
         for i in range(self.iPar):
             for j in range(self.jPar):
                 self.particles[i][j].verlet(t)
@@ -62,7 +64,16 @@ class Cloth:
                         bar.particles[0] = self.particles[i][j]
                     if(bar.particles[1].index == [i,j]):
                         bar.particles[1] = self.particles[i][j]
+    
+    def checkConstraints(self):
+        check = True
+        for i in range(len(self.bars)):
+            if(not self.bars[i].checkConstraints()):
+                check = False
+                self.violatedBars += [i]
         
+
+        return check
 
     def getVertices(self):
         vertices = []
@@ -94,27 +105,5 @@ class Cloth:
         return faces
 
 
-    
-    def checkConstraints(self):
-        check = True
-        for i in range(len(self.bars)):
-            if(not self.bars[i].checkConstraints()):
-                check = False
-                self.violatedBars += [i]
-        
-
-        return check
-    
-    def runSim(self,t):
-        self.runVerlet(t)
-
-        while(not self.checkConstraints()):
-    
-            for vB in self.violatedBars:
-                
-                self.bars[vB].fix()
-
-            self.violatedBars.clear()
-            
 
      

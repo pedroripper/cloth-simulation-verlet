@@ -37,7 +37,7 @@ light = pv.Light(position=(-10, 0, 0),
 plotter.add_light(light)
 
 
-plotter.add_mesh(mesh,show_edges=False,interpolate_before_map = True,smooth_shading=True,color='r',texture='logoPUC.png')
+plotter.add_mesh(mesh,show_edges=False,interpolate_before_map = True,smooth_shading=True,color='r')
 plotter.add_axes()
 plotter.enable_eye_dome_lighting()
 plotter.show(title="Verlet Cloth", interactive=False, auto_close=False, window_size=[1000, 1000])

@@ -23,7 +23,6 @@ class Particle:
         return self.gravity(axis)+self.wind(axis,t)
     
     def verlet(self,t):
-
         cPosition = self.pos.getPos()
         lPosition = self.lastPos.getPos()
         tPosition = cPosition       
@@ -35,7 +34,6 @@ class Particle:
         newPos = Vector3d(cPosition[0],cPosition[1],cPosition[2])
 
         self.updatePos(self.pos,newPos)
-
 
 
     def updatePos(self,current,new):
