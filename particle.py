@@ -23,6 +23,7 @@ class Particle:
         return self.gravity(axis)+self.wind(axis,t)
     
     def verlet(self,t):
+    
         cPosition = self.pos.getPos()
         lPosition = self.lastPos.getPos()
         tPosition = cPosition       

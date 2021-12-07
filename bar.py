@@ -6,15 +6,16 @@ from particle import Particle
 from vec3d import Vector3d
 import time
 class Bar:
-    def __init__(self,pA,pB):
+    def __init__(self,pA,pB,tol):
         self.particles = [pA,pB]
         self.l = pA.distance(pB)
+        self.tol = tol
 
 
 
     def checkConstraints(self):
         distance = self.particles[0].distance(self.particles[1])
-        if(distance/(self.l) > 1.05):            
+        if(distance/(self.l) > 1+self.tol):            
             return False
         return True
     
